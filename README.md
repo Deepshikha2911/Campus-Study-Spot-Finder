@@ -194,7 +194,7 @@ To configure Firebase:
 1. Create a Firebase project.
 2. Add a Web Application to the Firebase project.
 3. Enable Email/Password authentication.
-4. Paste your credential in .env file.
+4. Make the .env file referring to .env.example file and paste your credentials in .env file.
 
 ---
 

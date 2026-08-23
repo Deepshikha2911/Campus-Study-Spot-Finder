@@ -47,14 +47,17 @@ function Register() {
             const newUser = userCredential.user;
 
 
+            // Save user's display name in Firebase Authentication
             await updateProfile(newUser, {
                 displayName: name,
             });
 
 
+            // Create user document in Firestore
             await setDoc(
                 doc(db, "users", newUser.uid),
                 {
+                    // Basic Account Information
                     fullName: name,
                     email: email,
 
@@ -63,9 +66,10 @@ function Register() {
                     phone: "",
 
                     // Academic Information
-                    university: "GSFC University",
-                    program: "B.Tech",
-                    branch: "Computer Science Engineering",
+                    // User will fill these later from Edit Profile
+                    university: "",
+                    program: "",
+                    branch: "",
                     semester: "",
 
                     // Study Preferences
@@ -86,22 +90,35 @@ function Register() {
 
             console.error(error);
 
-            if (error.code === "auth/email-already-in-use") {
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
                 setError(
                     "An account already exists with this email address. Please log in instead."
                 );
 
-            } else if (error.code === "auth/invalid-email") {
+            } else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
                 setError(
                     "Please enter a valid email address."
                 );
 
-            } else if (error.code === "auth/weak-password") {
+            } else if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
                 setError(
                     "Your password is too weak. Please use at least 6 characters."
                 );
 
             } else {
+
                 setError(
                     "Unable to create your account. Please try again."
                 );
@@ -117,15 +134,21 @@ function Register() {
 
     return (
         <main className="auth-page">
+
             <div className="auth-container">
+
 
                 {/* LEFT SIDE */}
 
                 <section className="auth-welcome">
 
-                    <Link to="/" className="auth-logo">
+                    <Link
+                        to="/"
+                        className="auth-logo"
+                    >
                         StudySpot
                     </Link>
+
 
                     <div className="auth-welcome-content">
 
@@ -144,10 +167,21 @@ function Register() {
                             the best study spaces around your campus.
                         </p>
 
+
                         <div className="auth-features">
-                            <div>Find the best study spots</div>
-                            <div>Build your favorites collection</div>
-                            <div>Help other students with reviews</div>
+
+                            <div>
+                                Find the best study spots
+                            </div>
+
+                            <div>
+                                Build your favorites collection
+                            </div>
+
+                            <div>
+                                Help other students with reviews
+                            </div>
+
                         </div>
 
                     </div>
@@ -165,7 +199,9 @@ function Register() {
                             GET STARTED
                         </p>
 
-                        <h2>Create your account</h2>
+                        <h2>
+                            Create your account
+                        </h2>
 
                         <p>
                             Join StudySpot and find your ideal
@@ -179,6 +215,7 @@ function Register() {
                         className="auth-form"
                         onSubmit={handleSubmit}
                     >
+
 
                         {/* FULL NAME */}
 
@@ -249,10 +286,19 @@ function Register() {
                         {/* ERROR MESSAGE */}
 
                         {error && (
+
                             <div className="auth-error">
-                                <span>⚠</span>
-                                <p>{error}</p>
+
+                                <span>
+                                    ⚠
+                                </span>
+
+                                <p>
+                                    {error}
+                                </p>
+
                             </div>
+
                         )}
 
 
@@ -263,9 +309,11 @@ function Register() {
                             className="auth-submit-btn"
                             disabled={loading}
                         >
+
                             {loading
                                 ? "Creating Account..."
                                 : "Create Account →"}
+
                         </button>
 
                     </form>
@@ -284,8 +332,10 @@ function Register() {
                 </section>
 
             </div>
+
         </main>
     );
 }
+
 
 export default Register;

@@ -3267,3 +3267,14 @@
     width: 100%;
   }
 }
+
+.input-error {
+    border: 1px solid #e74c3c !important;
+}
+
+.field-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #e74c3c;
+}

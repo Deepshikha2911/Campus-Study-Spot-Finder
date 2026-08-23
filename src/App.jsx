@@ -24,26 +24,12 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 
 function App() {
-
   const [favorites, setFavorites] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
 
   const { user, loading } = useAuth();
   const location = useLocation();
-
-  const [studentInfo, setStudentInfo] = useState({
-    studentId: "",
-    phone: "",
-    university: "GSFC University",
-    program: "B.Tech",
-    branch: "Computer Science Engineering",
-    semester: "Semester 4",
-    noisePreference: "Quiet",
-    crowdPreference: "Less Crowded",
-    wifi: true,
-    outlets: true,
-  });
 
   // Page transition loader
   useEffect(() => {
@@ -56,12 +42,11 @@ function App() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
-
   if (loading) {
     return <PageLoader />;
   }
 
-
+  // Toggle favorite
   function toggleFavorite(spot) {
     setFavorites((previousFavorites) => {
       const alreadyExists = previousFavorites.some(
@@ -78,14 +63,13 @@ function App() {
     });
   }
 
-
+  // Add review
   function addReview(review) {
     setReviews((previousReviews) => [
       ...previousReviews,
       review,
     ]);
   }
-
 
   return (
     <>
@@ -98,6 +82,7 @@ function App() {
           <Header />
 
           <Routes>
+
             {/* HOME */}
             <Route
               path="/"
@@ -126,7 +111,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile
-                    studentInfo={studentInfo}
                     favorites={favorites}
                     reviews={reviews}
                   />
@@ -134,16 +118,12 @@ function App() {
               }
             />
 
-
             {/* EDIT PROFILE */}
             <Route
               path="/edit-profile"
               element={
                 <ProtectedRoute>
-                  <EditProfile
-                    studentInfo={studentInfo}
-                    setStudentInfo={setStudentInfo}
-                  />
+                  <EditProfile />
                 </ProtectedRoute>
               }
             />
@@ -204,6 +184,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
           </Routes>
 
           <Footer />

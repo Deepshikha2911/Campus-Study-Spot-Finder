@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import {
     createUserWithEmailAndPassword,
     updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase";
+
+import { auth, db } from "../firebase";
+
+import {
+    doc,
+    setDoc,
+    serverTimestamp,
+} from "firebase/firestore";
+
 
 function Register() {
     const navigate = useNavigate();
@@ -12,7 +21,10 @@ function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -20,7 +32,11 @@ function Register() {
         // Clear previous error
         setError("");
 
+        // Prevent multiple clicks while registering
+        setLoading(true);
+
         try {
+
             const userCredential =
                 await createUserWithEmailAndPassword(
                     auth,
@@ -28,40 +44,83 @@ function Register() {
                     password
                 );
 
-            await updateProfile(userCredential.user, {
+            const newUser = userCredential.user;
+
+
+            await updateProfile(newUser, {
                 displayName: name,
             });
+
+
+            await setDoc(
+                doc(db, "users", newUser.uid),
+                {
+                    fullName: name,
+                    email: email,
+
+                    // Personal Information
+                    studentId: "",
+                    phone: "",
+
+                    // Academic Information
+                    university: "GSFC University",
+                    program: "B.Tech",
+                    branch: "Computer Science Engineering",
+                    semester: "",
+
+                    // Study Preferences
+                    noisePreference: "Quiet",
+                    crowdPreference: "Less Crowded",
+                    wifi: true,
+                    outlets: true,
+
+                    // Account Information
+                    createdAt: serverTimestamp(),
+                }
+            );
+
 
             navigate("/study-spots");
 
         } catch (error) {
+
             console.error(error);
 
             if (error.code === "auth/email-already-in-use") {
                 setError(
                     "An account already exists with this email address. Please log in instead."
                 );
+
             } else if (error.code === "auth/invalid-email") {
                 setError(
                     "Please enter a valid email address."
                 );
+
             } else if (error.code === "auth/weak-password") {
                 setError(
                     "Your password is too weak. Please use at least 6 characters."
                 );
+
             } else {
                 setError(
                     "Unable to create your account. Please try again."
                 );
             }
+
+        } finally {
+
+            setLoading(false);
+
         }
     }
+
 
     return (
         <main className="auth-page">
             <div className="auth-container">
 
                 {/* LEFT SIDE */}
+
                 <section className="auth-welcome">
 
                     <Link to="/" className="auth-logo">
@@ -95,7 +154,9 @@ function Register() {
 
                 </section>
 
+
                 {/* RIGHT SIDE */}
+
                 <section className="auth-form-section">
 
                     <div className="auth-form-header">
@@ -113,10 +174,13 @@ function Register() {
 
                     </div>
 
+
                     <form
                         className="auth-form"
                         onSubmit={handleSubmit}
                     >
+
+                        {/* FULL NAME */}
 
                         <div className="form-group">
 
@@ -137,6 +201,9 @@ function Register() {
 
                         </div>
 
+
+                        {/* EMAIL */}
+
                         <div className="form-group">
 
                             <label htmlFor="email">
@@ -155,6 +222,9 @@ function Register() {
                             />
 
                         </div>
+
+
+                        {/* PASSWORD */}
 
                         <div className="form-group">
 
@@ -186,14 +256,20 @@ function Register() {
                         )}
 
 
+                        {/* SUBMIT BUTTON */}
+
                         <button
                             type="submit"
                             className="auth-submit-btn"
+                            disabled={loading}
                         >
-                            Create Account →
+                            {loading
+                                ? "Creating Account..."
+                                : "Create Account →"}
                         </button>
 
                     </form>
+
 
                     <p className="auth-switch">
 

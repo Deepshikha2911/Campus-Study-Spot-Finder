@@ -2845,3 +2845,425 @@
     transform: translateY(0);
   }
 }
+
+
+.profile-page {
+  min-height: 100vh;
+  padding: 65px 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #f2fbf8,
+      #f4f8ff,
+      #fdf8ff
+    );
+}
+
+.profile-container {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+
+.profile-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  padding: 38px;
+  margin-bottom: 28px;
+
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 28px;
+
+  box-shadow: 0 12px 35px rgba(70, 120, 130, 0.12);
+}
+
+.large-avatar {
+  width: 110px;
+  height: 110px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #78c7b8,
+    #62a8d7
+  );
+
+  color: white;
+  font-size: 42px;
+  font-weight: 700;
+
+  box-shadow: 0 10px 25px rgba(82, 168, 190, 0.25);
+}
+
+.profile-hero-info {
+  flex: 1;
+}
+
+.profile-hero-info h1 {
+  margin: 0 0 7px;
+
+  color: #26384a;
+  font-size: 32px;
+}
+
+.profile-email {
+  margin: 0 0 16px;
+  color: #738394;
+}
+
+.student-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+.student-badges span {
+  padding: 7px 13px;
+
+  background: #eef8f6;
+  color: #477c76;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.university-name {
+  margin: 0;
+
+  color: #5d7180;
+  font-size: 14px;
+}
+
+.edit-profile-btn {
+  align-self: flex-start;
+
+  padding: 11px 18px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    #6db8aa,
+    #5b9ed0
+  );
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.edit-profile-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(80, 150, 170, 0.25);
+}
+
+
+.profile-section-card {
+  margin-bottom: 25px;
+  padding: 30px;
+
+  background: rgba(255, 255, 255, 0.84);
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+
+  box-shadow: 0 10px 30px rgba(70, 110, 120, 0.08);
+}
+
+.profile-section-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.section-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eef8f6;
+
+  border-radius: 14px;
+
+  font-size: 22px;
+}
+
+.profile-section-title h2 {
+  margin: 0 0 4px;
+
+  color: #2c3d4c;
+  font-size: 22px;
+}
+
+.profile-section-title p {
+  margin: 0;
+
+  color: #8493a0;
+  font-size: 14px;
+}
+
+
+.profile-info-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 16px;
+}
+
+.profile-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  padding: 17px;
+
+  background: #f6faf9;
+
+  border-radius: 14px;
+
+  border: 1px solid #edf2f1;
+}
+
+.profile-info-item .info-label {
+  color: #8493a0;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-info-item .info-value {
+  color: #34495b;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.preferences-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 16px;
+}
+
+.preference-card {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 18px;
+
+  background: linear-gradient(
+    135deg,
+    #f2faf8,
+    #f3f8fd
+  );
+
+  border-radius: 16px;
+
+  border: 1px solid #e8f0ee;
+}
+
+.preference-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+
+  border-radius: 13px;
+
+  font-size: 21px;
+}
+
+.preference-card p {
+  margin: 0 0 5px;
+
+  color: #81909d;
+
+  font-size: 13px;
+}
+
+.preference-card strong {
+  color: #334758;
+}
+
+
+.activity-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.activity-card {
+  text-align: center;
+
+  padding: 25px 15px;
+
+  background: linear-gradient(
+    135deg,
+    #f3faf8,
+    #f4f8fd
+  );
+
+  border-radius: 18px;
+
+  border: 1px solid #e9f0ef;
+
+  transition: 0.25s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+}
+
+.activity-icon {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 26px;
+}
+
+.activity-card h3 {
+  margin: 0 0 4px;
+
+  color: #35495a;
+
+  font-size: 26px;
+}
+
+.activity-card p {
+  margin: 0;
+
+  color: #83919d;
+
+  font-size: 13px;
+}
+
+
+.profile-logout-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 28px 32px;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  border-radius: 22px;
+
+  box-shadow: 0 8px 25px rgba(70, 110, 120, 0.08);
+}
+
+.profile-logout-section h3 {
+  margin: 0 0 5px;
+
+  color: #34495b;
+}
+
+.profile-logout-section p {
+  margin: 0;
+
+  color: #8493a0;
+
+  font-size: 14px;
+}
+
+.logout-btn {
+  padding: 13px 25px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #ff6b6b;
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.logout-btn:hover {
+  background: #ee5959;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+
+  .profile-page {
+    padding: 35px 15px;
+  }
+
+  .profile-hero-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .student-badges {
+    justify-content: center;
+  }
+
+  .edit-profile-btn {
+    align-self: center;
+  }
+
+  .profile-info-grid,
+  .preferences-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-logout-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logout-btn {
+    width: 100%;
+  }
+}

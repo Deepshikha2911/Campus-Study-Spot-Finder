@@ -21,11 +21,9 @@ import About from "./pages/About";
 import SpotDetails from "./pages/SpotDetails";
 import Review from "./pages/Review";
 import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
-  // =========================
-  // ALL HOOKS MUST BE AT TOP
-  // =========================
 
   const [favorites, setFavorites] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -33,6 +31,19 @@ function App() {
 
   const { user, loading } = useAuth();
   const location = useLocation();
+
+  const [studentInfo, setStudentInfo] = useState({
+    studentId: "",
+    phone: "",
+    university: "GSFC University",
+    program: "B.Tech",
+    branch: "Computer Science Engineering",
+    semester: "Semester 4",
+    noisePreference: "Quiet",
+    crowdPreference: "Less Crowded",
+    wifi: true,
+    outlets: true,
+  });
 
   // Page transition loader
   useEffect(() => {
@@ -45,15 +56,11 @@ function App() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
-  // Wait until Firebase finishes checking authentication
-  // IMPORTANT: This comes AFTER all hooks
+
   if (loading) {
     return <PageLoader />;
   }
 
-  // =========================
-  // FAVORITES
-  // =========================
 
   function toggleFavorite(spot) {
     setFavorites((previousFavorites) => {
@@ -71,9 +78,6 @@ function App() {
     });
   }
 
-  // =========================
-  // REVIEWS
-  // =========================
 
   function addReview(review) {
     setReviews((previousReviews) => [
@@ -82,9 +86,6 @@ function App() {
     ]);
   }
 
-  // =========================
-  // MAIN APPLICATION
-  // =========================
 
   return (
     <>
@@ -124,7 +125,25 @@ function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <Profile />
+                  <Profile
+                    studentInfo={studentInfo}
+                    favorites={favorites}
+                    reviews={reviews}
+                  />
+                </ProtectedRoute>
+              }
+            />
+
+
+            {/* EDIT PROFILE */}
+            <Route
+              path="/edit-profile"
+              element={
+                <ProtectedRoute>
+                  <EditProfile
+                    studentInfo={studentInfo}
+                    setStudentInfo={setStudentInfo}
+                  />
                 </ProtectedRoute>
               }
             />

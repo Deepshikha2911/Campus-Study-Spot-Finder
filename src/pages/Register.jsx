@@ -12,9 +12,13 @@ function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     async function handleSubmit(event) {
         event.preventDefault();
+
+        // Clear previous error
+        setError("");
 
         try {
             const userCredential =
@@ -24,24 +28,32 @@ function Register() {
                     password
                 );
 
-            await updateProfile(
-                userCredential.user,
-                {
-                    displayName: name,
-                }
-            );
-
-            console.log(
-                "Account created:",
-                userCredential.user
-            );
+            await updateProfile(userCredential.user, {
+                displayName: name,
+            });
 
             navigate("/study-spots");
 
         } catch (error) {
             console.error(error);
 
-            alert(error.message);
+            if (error.code === "auth/email-already-in-use") {
+                setError(
+                    "An account already exists with this email address. Please log in instead."
+                );
+            } else if (error.code === "auth/invalid-email") {
+                setError(
+                    "Please enter a valid email address."
+                );
+            } else if (error.code === "auth/weak-password") {
+                setError(
+                    "Your password is too weak. Please use at least 6 characters."
+                );
+            } else {
+                setError(
+                    "Unable to create your account. Please try again."
+                );
+            }
         }
     }
 
@@ -162,6 +174,17 @@ function Register() {
                             />
 
                         </div>
+
+
+                        {/* ERROR MESSAGE */}
+
+                        {error && (
+                            <div className="auth-error">
+                                <span>⚠</span>
+                                <p>{error}</p>
+                            </div>
+                        )}
+
 
                         <button
                             type="submit"

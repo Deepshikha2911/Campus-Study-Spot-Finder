@@ -8,21 +8,19 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const [error, setError] = useState("");
+
     async function handleSubmit(event) {
         event.preventDefault();
 
-        try {
-            const userCredential =
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
+        // Clear previous error
+        setError("");
 
-            console.log(
-                "Logged in:",
-                userCredential.user
+        try {
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
             );
 
             navigate("/study-spots");
@@ -30,7 +28,27 @@ function Login() {
         } catch (error) {
             console.error(error);
 
-            alert(error.message);
+            if (error.code === "auth/invalid-credential") {
+                setError(
+                    "Incorrect email or password. Please try again."
+                );
+            } else if (error.code === "auth/user-not-found") {
+                setError(
+                    "No account found with this email address."
+                );
+            } else if (error.code === "auth/invalid-email") {
+                setError(
+                    "Please enter a valid email address."
+                );
+            } else if (error.code === "auth/too-many-requests") {
+                setError(
+                    "Too many failed attempts. Please try again later."
+                );
+            } else {
+                setError(
+                    "Something went wrong. Please try again."
+                );
+            }
         }
     }
 
@@ -150,6 +168,16 @@ function Login() {
                             </Link>
 
                         </div>
+
+
+                        {/* ERROR MESSAGE */}
+
+                        {error && (
+                            <div className="auth-error">
+                                <span>⚠</span>
+                                <p>{error}</p>
+                            </div>
+                        )}
 
 
                         {/* LOGIN BUTTON */}

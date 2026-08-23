@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+
+import PageLoader from "./components/PageLoader";
+import ScrollToTop from "./components/ScrollToTop";
 import { useAuth } from "./context/AuthContext";
 
 import "./App.css";
@@ -8,7 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-// Import your pages
+// Import pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -20,13 +23,38 @@ import Review from "./pages/Review";
 import Profile from "./pages/Profile";
 
 function App() {
+  // =========================
+  // ALL HOOKS MUST BE AT TOP
+  // =========================
 
-  // Keep your existing states
   const [favorites, setFavorites] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const { user, loading } = useAuth();
+  const [pageLoading, setPageLoading] = useState(false);
 
-  // Your existing favorite function
+  const { user, loading } = useAuth();
+  const location = useLocation();
+
+  // Page transition loader
+  useEffect(() => {
+    setPageLoading(true);
+
+    const timer = setTimeout(() => {
+      setPageLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
+  // Wait until Firebase finishes checking authentication
+  // IMPORTANT: This comes AFTER all hooks
+  if (loading) {
+    return <PageLoader />;
+  }
+
+  // =========================
+  // FAVORITES
+  // =========================
+
   function toggleFavorite(spot) {
     setFavorites((previousFavorites) => {
       const alreadyExists = previousFavorites.some(
@@ -43,7 +71,10 @@ function App() {
     });
   }
 
-  // Your existing review function
+  // =========================
+  // REVIEWS
+  // =========================
+
   function addReview(review) {
     setReviews((previousReviews) => [
       ...previousReviews,
@@ -51,109 +82,114 @@ function App() {
     ]);
   }
 
-  // Wait until Firebase finishes checking login
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // =========================
+  // MAIN APPLICATION
+  // =========================
 
   return (
     <>
-      <Header />
+      <ScrollToTop />
 
-      <Routes>
+      {pageLoading ? (
+        <PageLoader />
+      ) : (
+        <>
+          <Header />
 
-        {/* HOME */}
-        <Route
-          path="/"
-          element={<Home />}
-        />
+          <Routes>
+            {/* HOME */}
+            <Route
+              path="/"
+              element={<Home />}
+            />
 
-        {/* LOGIN */}
-        <Route
-          path="/login"
-          element={
-            user ? <StudySpots /> : <Login />
-          }
-        />
+            {/* LOGIN */}
+            <Route
+              path="/login"
+              element={
+                user ? <StudySpots /> : <Login />
+              }
+            />
 
-        {/* REGISTER */}
-        <Route
-          path="/register"
-          element={
-            user ? <StudySpots /> : <Register />
-          }
-        />
+            {/* REGISTER */}
+            <Route
+              path="/register"
+              element={
+                user ? <StudySpots /> : <Register />
+              }
+            />
 
-        {/* PROFILE */}
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
+            {/* PROFILE */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* STUDY SPOTS */}
-        <Route
-          path="/study-spots"
-          element={
-            <ProtectedRoute>
-              <StudySpots />
-            </ProtectedRoute>
-          }
-        />
+            {/* STUDY SPOTS */}
+            <Route
+              path="/study-spots"
+              element={
+                <ProtectedRoute>
+                  <StudySpots />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* FAVORITES */}
-        <Route
-          path="/favorites"
-          element={
-            <ProtectedRoute>
-              <Favorites
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-              />
-            </ProtectedRoute>
-          }
-        />
+            {/* FAVORITES */}
+            <Route
+              path="/favorites"
+              element={
+                <ProtectedRoute>
+                  <Favorites
+                    favorites={favorites}
+                    toggleFavorite={toggleFavorite}
+                  />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* ABOUT */}
-        <Route
-          path="/about"
-          element={
-            <ProtectedRoute>
-              <About />
-            </ProtectedRoute>
-          }
-        />
+            {/* ABOUT */}
+            <Route
+              path="/about"
+              element={
+                <ProtectedRoute>
+                  <About />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* SPOT DETAILS */}
-        <Route
-          path="/study-spots/:id"
-          element={
-            <ProtectedRoute>
-              <SpotDetails
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                reviews={reviews}
-              />
-            </ProtectedRoute>
-          }
-        />
+            {/* SPOT DETAILS */}
+            <Route
+              path="/study-spots/:id"
+              element={
+                <ProtectedRoute>
+                  <SpotDetails
+                    favorites={favorites}
+                    toggleFavorite={toggleFavorite}
+                    reviews={reviews}
+                  />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* REVIEW */}
-        <Route
-          path="/study-spots/:id/review"
-          element={
-            <ProtectedRoute>
-              <Review addReview={addReview} />
-            </ProtectedRoute>
-          }
-        />
+            {/* REVIEW */}
+            <Route
+              path="/study-spots/:id/review"
+              element={
+                <ProtectedRoute>
+                  <Review addReview={addReview} />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
 
-      </Routes>
-
-      <Footer />
+          <Footer />
+        </>
+      )}
     </>
   );
 }

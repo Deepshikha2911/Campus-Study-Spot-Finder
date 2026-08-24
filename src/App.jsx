@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
+import {
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+
+import { db } from "./firebase";
+
 import PageLoader from "./components/PageLoader";
 import ScrollToTop from "./components/ScrollToTop";
 import { useAuth } from "./context/AuthContext";
@@ -42,25 +50,118 @@ function App() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
+
+  useEffect(() => {
+
+    async function loadFavorites() {
+
+      if (!user) {
+        setFavorites([]);
+        return;
+      }
+
+      try {
+
+        const userRef = doc(
+          db,
+          "users",
+          user.uid
+        );
+
+        const userSnapshot =
+          await getDoc(userRef);
+
+        if (userSnapshot.exists()) {
+
+          const userData =
+            userSnapshot.data();
+
+          setFavorites(
+            userData.favorites || []
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Error loading favorites:",
+          error
+        );
+
+      }
+    }
+
+    loadFavorites();
+
+  }, [user]);
+
   if (loading) {
     return <PageLoader />;
   }
 
-  // Toggle favorite
-  function toggleFavorite(spot) {
-    setFavorites((previousFavorites) => {
-      const alreadyExists = previousFavorites.some(
+  // Toggle favorite and save to Firestore
+  async function toggleFavorite(spot) {
+
+    // Make sure user is logged in
+    if (!user) {
+      return;
+    }
+
+    try {
+
+      const alreadyExists = favorites.some(
         (item) => item.id === spot.id
       );
 
+      let updatedFavorites;
+
       if (alreadyExists) {
-        return previousFavorites.filter(
+
+        // Remove spot from favorites
+        updatedFavorites = favorites.filter(
           (item) => item.id !== spot.id
         );
+
+      } else {
+
+        // Add spot to favorites
+        updatedFavorites = [
+          ...favorites,
+          spot,
+        ];
+
       }
 
-      return [...previousFavorites, spot];
-    });
+
+      // Update React state immediately
+      setFavorites(updatedFavorites);
+
+
+      // Firestore user document reference
+      const userRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+
+
+      // Save updated favorites to Firestore
+      await updateDoc(
+        userRef,
+        {
+          favorites: updatedFavorites,
+        }
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Error updating favorites:",
+        error
+      );
+
+    }
   }
 
   // Add review

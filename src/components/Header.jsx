@@ -36,8 +36,18 @@ function Header() {
           {user ? (
             <>
               <Link to="/study-spots">Study Spots</Link>
-              <Link to="/favorites">Favorites</Link>
-              <Link to="/about">About</Link>
+
+              <Link to="/favorites">
+                Favorites
+              </Link>
+
+              <Link to="/my-reviews">
+                My Reviews
+              </Link>
+
+              <Link to="/about">
+                About
+              </Link>
 
               {/* PROFILE */}
               <Link to="/profile" className="profile-nav">

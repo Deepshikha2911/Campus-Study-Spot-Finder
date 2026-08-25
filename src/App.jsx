@@ -32,6 +32,7 @@ import Favorites from "./pages/Favorites";
 import About from "./pages/About";
 import SpotDetails from "./pages/SpotDetails";
 import Review from "./pages/Review";
+import MyReviews from "./pages/MyReviews";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 
@@ -439,6 +440,20 @@ function App() {
                   <Favorites
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
+                  />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* MY REVIEWS */}
+            <Route
+              path="/my-reviews"
+              element={
+                <ProtectedRoute>
+                  <MyReviews
+                    reviews={reviews}
+                    updateReview={updateReview}
+                    deleteReview={deleteReview}
                   />
                 </ProtectedRoute>
               }

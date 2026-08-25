@@ -640,7 +640,10 @@ function Profile({ favorites = [], reviews = [] }) {
                     <div className="activity-grid">
 
 
-                        <div className="activity-card">
+                        <div
+                            className="activity-card clickable-activity-card"
+                            onClick={() => navigate("/favorites")}
+                        >
 
                             <span className="activity-icon">
                                 ❤️
@@ -654,10 +657,17 @@ function Profile({ favorites = [], reviews = [] }) {
                                 Favorites
                             </p>
 
+                            <span className="activity-arrow">
+                                →
+                            </span>
+
                         </div>
 
 
-                        <div className="activity-card">
+                        <div
+                            className="activity-card clickable-activity-card"
+                            onClick={() => navigate("/my-reviews")}
+                        >
 
                             <span className="activity-icon">
                                 ⭐
@@ -668,23 +678,36 @@ function Profile({ favorites = [], reviews = [] }) {
                             </h3>
 
                             <p>
-                                Reviews
+                                My Reviews
                             </p>
+
+                            <span className="activity-arrow">
+                                →
+                            </span>
 
                         </div>
 
 
-                        <div className="activity-card">
+                        <div
+                            className="activity-card clickable-activity-card"
+                            onClick={() => navigate("/study-spots")}
+                        >
 
                             <span className="activity-icon">
                                 📍
                             </span>
 
-                            <h3>0</h3>
+                            <h3>
+                                Explore
+                            </h3>
 
                             <p>
                                 Study Spots
                             </p>
+
+                            <span className="activity-arrow">
+                                →
+                            </span>
 
                         </div>
 

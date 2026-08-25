@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import studySpots from "../data/studySpots";
+import { useAuth } from "../context/AuthContext";
 
 function Review({ addReview }) {
+    const { user } = useAuth();
     const { id } = useParams();
 
     const spot = studySpots.find(
@@ -30,7 +32,8 @@ function Review({ addReview }) {
         );
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
+
         event.preventDefault();
 
         if (rating === 0) {
@@ -38,17 +41,35 @@ function Review({ addReview }) {
             return;
         }
 
+        if (!user) {
+            alert("Please log in to submit a review.");
+            return;
+        }
+
         const newReview = {
-            id: Date.now(),
+
             spotId: spot.id,
-            name: name,
+
+            userId: user.uid,
+
+            name: user.displayName || name,
+
             rating: rating,
+
             review: review
+
         };
 
-        addReview(newReview);
+        const reviewSaved =
+            await addReview(newReview);
 
-        setSubmitted(true);
+        if (reviewSaved) {
+            setSubmitted(true);
+        } else {
+            alert(
+                "Unable to submit your review. Please try again."
+            );
+        }
     }
 
     // Success message after submission
@@ -67,7 +88,7 @@ function Review({ addReview }) {
                         <h1>Review Submitted!</h1>
 
                         <p>
-                            Thank you, {name}! Your feedback for
+                            Thank you, {user.displayName || name}! Your feedback for
                             <strong> {spot.name}</strong> has been submitted.
                         </p>
 

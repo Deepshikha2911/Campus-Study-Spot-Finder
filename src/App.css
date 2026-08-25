@@ -2803,11 +2803,9 @@
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(
-    135deg,
-    #f4fff9,
-    #f0f7ff
-  );
+  background: linear-gradient(135deg,
+      #f4fff9,
+      #f0f7ff);
 
   z-index: 9999;
 }
@@ -2851,12 +2849,10 @@
   min-height: 100vh;
   padding: 65px 20px;
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #f2fbf8,
       #f4f8ff,
-      #fdf8ff
-    );
+      #fdf8ff);
 }
 
 .profile-container {
@@ -2894,11 +2890,9 @@
 
   border-radius: 50%;
 
-  background: linear-gradient(
-    135deg,
-    #78c7b8,
-    #62a8d7
-  );
+  background: linear-gradient(135deg,
+      #78c7b8,
+      #62a8d7);
 
   color: white;
   font-size: 42px;
@@ -2958,11 +2952,9 @@
   border: none;
   border-radius: 12px;
 
-  background: linear-gradient(
-    135deg,
-    #6db8aa,
-    #5b9ed0
-  );
+  background: linear-gradient(135deg,
+      #6db8aa,
+      #5b9ed0);
 
   color: white;
 
@@ -3083,11 +3075,9 @@
 
   padding: 18px;
 
-  background: linear-gradient(
-    135deg,
-    #f2faf8,
-    #f3f8fd
-  );
+  background: linear-gradient(135deg,
+      #f2faf8,
+      #f3f8fd);
 
   border-radius: 16px;
 
@@ -3135,11 +3125,9 @@
 
   padding: 25px 15px;
 
-  background: linear-gradient(
-    135deg,
-    #f3faf8,
-    #f4f8fd
-  );
+  background: linear-gradient(135deg,
+      #f3faf8,
+      #f4f8fd);
 
   border-radius: 18px;
 
@@ -3269,12 +3257,727 @@
 }
 
 .input-error {
-    border: 1px solid #e74c3c !important;
+  border: 1px solid #e74c3c !important;
 }
 
 .field-error {
-    display: block;
-    margin-top: 6px;
-    font-size: 13px;
-    color: #e74c3c;
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #e74c3c;
+}
+
+/* ================= REVIEW ACTION BUTTONS ================= */
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+
+.edit-review-btn,
+.delete-review-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 9px 16px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* EDIT BUTTON */
+
+.edit-review-btn {
+
+  background: #f4f7f8;
+
+  color: #24485a;
+
+  border: 1px solid #d8e1e5;
+
+}
+
+
+.edit-review-btn:hover {
+
+  background: #e7f1f3;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.08);
+
+}
+
+
+/* DELETE BUTTON */
+
+.delete-review-btn {
+
+  background: #fff4f2;
+
+  color: #c94b3b;
+
+  border: 1px solid #f3d0ca;
+
+}
+
+
+.delete-review-btn:hover {
+
+  background: #ffe6e1;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 12px rgba(201, 75, 59, 0.12);
+
+}
+
+
+.edit-review-btn:active,
+.delete-review-btn:active {
+
+  transform: translateY(0);
+
+}
+
+
+/* ================= DELETE CONFIRMATION MODAL ================= */
+
+.delete-modal-overlay {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(20, 35, 45, 0.55);
+
+  backdrop-filter: blur(4px);
+
+  z-index: 9999;
+
+}
+
+
+.delete-modal {
+
+  width: 100%;
+  max-width: 420px;
+
+  padding: 36px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.25);
+
+  animation: modalAppear 0.25s ease;
+
+}
+
+
+@keyframes modalAppear {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(15px) scale(0.97);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0) scale(1);
+
+  }
+
+}
+
+
+.delete-modal-icon {
+
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  font-size: 28px;
+
+  background: #fff0ed;
+
+  border-radius: 50%;
+
+}
+
+
+.delete-modal h2 {
+
+  margin-bottom: 12px;
+
+  font-size: 24px;
+
+  color: #263746;
+
+}
+
+
+.delete-modal p {
+
+  margin: 0 auto;
+
+  max-width: 330px;
+
+  line-height: 1.6;
+
+  color: #6b7b87;
+
+}
+
+
+.delete-modal-actions {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 28px;
+
+}
+
+
+.cancel-delete-btn,
+.confirm-delete-btn {
+
+  min-width: 130px;
+
+  padding: 12px 20px;
+
+  border-radius: 9px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+
+}
+
+
+.cancel-delete-btn {
+
+  background: #f5f7f8;
+
+  color: #52636f;
+
+  border: 1px solid #dce3e6;
+
+}
+
+
+.cancel-delete-btn:hover {
+
+  background: #e9eef0;
+
+}
+
+
+.confirm-delete-btn {
+
+  background: #c94b3b;
+
+  color: white;
+
+  border: none;
+
+}
+
+
+.confirm-delete-btn:hover {
+
+  background: #ae3d30;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 18px rgba(201, 75, 59, 0.25);
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+  .delete-modal {
+
+    padding: 28px 20px;
+
+  }
+
+
+  .delete-modal-actions {
+
+    flex-direction: column;
+
+  }
+
+
+  .cancel-delete-btn,
+  .confirm-delete-btn {
+
+    width: 100%;
+
+  }
+
+}
+
+/* =========================================
+   REVIEW EDITING
+========================================= */
+
+.review-edit-container {
+  margin-top: 20px;
+}
+
+
+/* EDIT TEXTAREA */
+
+.edit-review-textarea {
+  width: 100%;
+  min-height: 120px;
+
+  padding: 16px 18px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d8e1e6;
+  border-radius: 12px;
+
+  background: #f8fafb;
+
+  color: #243447;
+
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.6;
+
+  resize: vertical;
+  outline: none;
+
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.edit-review-textarea:focus {
+  background: #ffffff;
+
+  border-color: #4f8b88;
+
+  box-shadow:
+    0 0 0 4px rgba(79, 139, 136, 0.12);
+}
+
+
+/* SAVE AND CANCEL BUTTON CONTAINER */
+
+.review-edit-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 14px;
+}
+
+
+/* SAVE BUTTON */
+
+.save-review-btn {
+  border: none;
+
+  padding: 11px 20px;
+
+  border-radius: 9px;
+
+  background: #2f6f6d;
+
+  color: white;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.save-review-btn:hover {
+  background: #245957;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 14px rgba(47, 111, 109, 0.2);
+}
+
+
+.save-review-btn:active {
+  transform: translateY(0);
+}
+
+
+/* CANCEL BUTTON */
+
+.cancel-review-btn {
+  padding: 11px 20px;
+
+  border: 1px solid #d5dde3;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #5b6770;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.cancel-review-btn:hover {
+  background: #f5f7f8;
+
+  border-color: #aebbc4;
+
+  color: #243447;
+}
+
+
+/* =========================================
+   EDIT AND DELETE REVIEW BUTTONS
+========================================= */
+
+.review-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+
+.edit-review-btn,
+.delete-review-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 9px 15px;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+/* EDIT */
+
+.edit-review-btn {
+  border: 1px solid #c9dedd;
+
+  background: #f3f9f8;
+
+  color: #2f6f6d;
+}
+
+
+.edit-review-btn:hover {
+  background: #e4f1ef;
+
+  transform: translateY(-2px);
+}
+
+
+/* DELETE */
+
+.delete-review-btn {
+  border: 1px solid #f0caca;
+
+  background: #fff7f7;
+
+  color: #c34d4d;
+}
+
+
+.delete-review-btn:hover {
+  background: #fdecec;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   CUSTOM DELETE MODAL
+========================================= */
+
+.delete-modal-overlay {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(20, 35, 45, 0.55);
+
+  backdrop-filter: blur(4px);
+
+  z-index: 9999;
+}
+
+
+.delete-modal {
+  width: 100%;
+  max-width: 430px;
+
+  padding: 35px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25);
+
+  animation: modalAppear 0.25s ease;
+}
+
+
+.delete-modal-icon {
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border-radius: 50%;
+
+  background: #fff0f0;
+
+  font-size: 30px;
+}
+
+
+.delete-modal h2 {
+  margin: 0 0 10px;
+
+  color: #243447;
+
+  font-size: 24px;
+}
+
+
+.delete-modal p {
+  margin: 0;
+
+  color: #6c7a86;
+
+  line-height: 1.6;
+}
+
+
+.delete-modal-actions {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+
+.cancel-delete-btn,
+.confirm-delete-btn {
+  padding: 12px 20px;
+
+  border-radius: 9px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.cancel-delete-btn {
+  border: 1px solid #d5dde3;
+
+  background: white;
+
+  color: #5b6770;
+}
+
+
+.cancel-delete-btn:hover {
+  background: #f5f7f8;
+}
+
+
+.confirm-delete-btn {
+  border: none;
+
+  background: #c94f4f;
+
+  color: white;
+}
+
+
+.confirm-delete-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(201, 79, 79, 0.25);
+}
+
+
+/* MODAL ANIMATION */
+
+@keyframes modalAppear {
+
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 600px) {
+
+  .review-edit-actions,
+  .review-actions,
+  .delete-modal-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+
+  .save-review-btn,
+  .cancel-review-btn,
+  .edit-review-btn,
+  .delete-review-btn,
+  .cancel-delete-btn,
+  .confirm-delete-btn {
+    width: 100%;
+  }
+
+
+  .delete-modal {
+    padding: 28px 22px;
+  }
+
 }

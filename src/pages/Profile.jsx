@@ -142,6 +142,11 @@ function Profile({ favorites = [], reviews = [] }) {
         ? user.displayName.charAt(0).toUpperCase()
         : user?.email?.charAt(0).toUpperCase();
 
+    // Get only the reviews written by the currently logged-in user
+    const userReviews = reviews.filter(
+        (review) => review.userId === user?.uid
+    );
+
 
     return (
 
@@ -659,7 +664,7 @@ function Profile({ favorites = [], reviews = [] }) {
                             </span>
 
                             <h3>
-                                {reviews.length}
+                                {userReviews.length}
                             </h3>
 
                             <p>

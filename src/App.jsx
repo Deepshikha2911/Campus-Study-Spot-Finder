@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import {
+  collection,
+  addDoc,
+  getDocs,
   doc,
-  getDoc,
   updateDoc,
+  deleteDoc,
+  getDoc,
 } from "firebase/firestore";
 
 import { db } from "./firebase";
@@ -96,6 +100,44 @@ function App() {
 
   }, [user]);
 
+  // Load all reviews from Firestore
+  useEffect(() => {
+
+    async function loadReviews() {
+
+      try {
+
+        const reviewsSnapshot =
+          await getDocs(
+            collection(db, "reviews")
+          );
+
+        const loadedReviews =
+          reviewsSnapshot.docs.map((reviewDoc) => ({
+
+            id: reviewDoc.id,
+
+            ...reviewDoc.data(),
+
+          }));
+
+        setReviews(loadedReviews);
+
+      } catch (error) {
+
+        console.error(
+          "Error loading reviews:",
+          error
+        );
+
+      }
+
+    }
+
+    loadReviews();
+
+  }, []);
+
   if (loading) {
     return <PageLoader />;
   }
@@ -165,11 +207,161 @@ function App() {
   }
 
   // Add review
-  function addReview(review) {
-    setReviews((previousReviews) => [
-      ...previousReviews,
-      review,
-    ]);
+  async function addReview(review) {
+
+    if (!user) {
+      return false;
+    }
+
+    try {
+
+      const reviewData = {
+
+        spotId: review.spotId,
+
+        userId: review.userId,
+
+        name: review.name,
+
+        rating: review.rating,
+
+        review: review.review,
+
+      };
+
+
+      // Add review to Firestore
+      const reviewRef =
+        await addDoc(
+          collection(db, "reviews"),
+          reviewData
+        );
+
+
+      // Add Firestore document ID to React state
+      const newReview = {
+
+        id: reviewRef.id,
+
+        ...reviewData,
+
+      };
+
+
+      setReviews((previousReviews) => [
+
+        ...previousReviews,
+
+        newReview,
+
+      ]);
+
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        "Error saving review:",
+        error
+      );
+
+      return false;
+
+    }
+
+  }
+
+  // Update review
+  async function updateReview(updatedReview) {
+
+    try {
+
+      const reviewRef = doc(
+        db,
+        "reviews",
+        updatedReview.id
+      );
+
+
+      await updateDoc(
+        reviewRef,
+        {
+
+          rating: updatedReview.rating,
+
+          review: updatedReview.review,
+
+        }
+      );
+
+
+      setReviews((previousReviews) =>
+
+        previousReviews.map((review) =>
+
+          review.id === updatedReview.id
+            ? updatedReview
+            : review
+
+        )
+
+      );
+
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        "Error updating review:",
+        error
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  // Delete review
+  async function deleteReview(reviewId) {
+
+    try {
+
+      const reviewRef = doc(
+        db,
+        "reviews",
+        reviewId
+      );
+
+
+      await deleteDoc(reviewRef);
+
+
+      setReviews((previousReviews) =>
+
+        previousReviews.filter(
+          (review) => review.id !== reviewId
+        )
+
+      );
+
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        "Error deleting review:",
+        error
+      );
+
+      return false;
+
+    }
+
   }
 
   return (
@@ -267,11 +459,15 @@ function App() {
               path="/study-spots/:id"
               element={
                 <ProtectedRoute>
+
                   <SpotDetails
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
                     reviews={reviews}
+                    updateReview={updateReview}
+                    deleteReview={deleteReview}
                   />
+
                 </ProtectedRoute>
               }
             />
@@ -281,7 +477,11 @@ function App() {
               path="/study-spots/:id/review"
               element={
                 <ProtectedRoute>
-                  <Review addReview={addReview} />
+
+                  <Review
+                    addReview={addReview}
+                  />
+
                 </ProtectedRoute>
               }
             />

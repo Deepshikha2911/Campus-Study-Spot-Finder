@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import studySpots from "../data/studySpots";
 import { useAuth } from "../context/AuthContext";
 
 function SpotDetails({
+    studySpots,
     favorites,
     toggleFavorite,
     reviews,
@@ -31,7 +31,7 @@ function SpotDetails({
 
     // Find the matching study spot
     const spot = studySpots.find(
-        (spot) => spot.id === Number(id)
+        (spot) => String(spot.id) === String(id)
     );
 
 
@@ -41,7 +41,7 @@ function SpotDetails({
             <main className="page-container">
 
                 <h1>
-                    Study Spot Not Found 😕
+                    Study Spot Not Found
                 </h1>
 
                 <Link to="/study-spots">
@@ -61,7 +61,8 @@ function SpotDetails({
 
     // Get reviews for the current study spot
     const spotReviews = reviews.filter(
-        (review) => review.spotId === spot.id
+        (review) =>
+            String(review.spotId) === String(spot.id)
     );
 
 

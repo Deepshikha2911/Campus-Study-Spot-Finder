@@ -4732,3 +4732,450 @@
   }
 
 }
+
+
+.add-spot-page {
+  min-height: 100vh;
+  padding: 70px 20px;
+}
+
+.add-spot-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+.add-spot-heading {
+  text-align: center;
+  max-width: 720px;
+  margin: 50px auto 45px;
+}
+
+.add-spot-heading .small-heading {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.add-spot-heading h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.add-spot-heading>p:last-child {
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+
+.add-spot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+
+.add-spot-section {
+  padding: 35px;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.add-spot-section h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.add-spot-section>p {
+  margin-bottom: 28px;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+
+.add-spot-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 22px;
+}
+
+.add-spot-form .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.add-spot-form label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.add-spot-form input,
+.add-spot-form textarea,
+.add-spot-form select {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 14px 16px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-family: inherit;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.add-spot-form textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.add-spot-form select {
+  cursor: pointer;
+  background: white;
+}
+
+.add-spot-form input:focus,
+.add-spot-form textarea:focus,
+.add-spot-form select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+
+.add-spot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.add-spot-grid .form-group {
+  margin-bottom: 0;
+}
+
+
+.submit-spot-btn {
+  width: 100%;
+
+  border: none;
+  border-radius: 12px;
+
+  padding: 16px 25px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  background: #6366f1;
+  color: white;
+
+  transition: 0.25s ease;
+
+  margin-bottom: 30px;
+}
+
+.submit-spot-btn:hover {
+  transform: translateY(-2px);
+  background: #4f46e5;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
+}
+
+
+.add-spot-success {
+  max-width: 600px;
+
+  margin: 100px auto;
+
+  padding: 60px 40px;
+
+  text-align: center;
+
+  border-radius: 20px;
+
+  border: 1px solid #e5e7eb;
+
+  background: white;
+}
+
+.add-spot-success-icon {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #dcfce7;
+  color: #16a34a;
+
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.add-spot-success h1 {
+  font-size: 30px;
+  margin-bottom: 14px;
+}
+
+.add-spot-success>p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6b7280;
+}
+
+
+.add-spot-success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  margin-top: 30px;
+
+  flex-wrap: wrap;
+}
+
+.view-spots-btn,
+.add-another-btn {
+  padding: 13px 20px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+
+  text-decoration: none;
+}
+
+.view-spots-btn {
+  background: #6366f1;
+  color: white;
+}
+
+.view-spots-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+}
+
+.add-another-btn {
+  background: white;
+
+  border: 1px solid #d1d5db;
+
+  color: #374151;
+}
+
+.add-another-btn:hover {
+  background: #f9fafb;
+}
+
+
+@media (max-width: 700px) {
+
+  .add-spot-page {
+    padding: 40px 15px;
+  }
+
+  .add-spot-heading {
+    margin: 35px auto;
+  }
+
+  .add-spot-heading h1 {
+    font-size: 32px;
+  }
+
+  .add-spot-section {
+    padding: 25px 20px;
+  }
+
+  .add-spot-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .add-spot-success {
+    margin: 60px auto;
+    padding: 45px 25px;
+  }
+
+  .add-spot-success-actions {
+    flex-direction: column;
+  }
+
+  .view-spots-btn,
+  .add-another-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+}
+
+
+.spots-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 30px;
+}
+
+
+.spots-info-title h2 {
+  margin: 0 0 6px;
+
+  font-size: 1.5rem;
+}
+
+
+.spots-info-title p {
+  margin: 0;
+
+  color: #6b7280;
+}
+
+
+.spots-info-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+}
+
+
+.active-filter-text {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 0.9rem;
+
+  white-space: nowrap;
+}
+
+
+/* ADD STUDY SPOT BUTTON */
+
+.add-spot-page-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 12px 20px;
+
+  background: #2563eb;
+
+  color: white;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.add-spot-page-btn span {
+  font-size: 1.2rem;
+
+  line-height: 1;
+}
+
+
+.add-spot-page-btn:hover {
+  background: #1d4ed8;
+
+  color: white;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+
+.add-spot-page-btn:active {
+  transform: translateY(0);
+}
+
+
+@media (max-width: 700px) {
+
+  .spots-info {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 16px;
+  }
+
+
+  .spots-info-actions {
+    width: 100%;
+
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+  }
+
+
+  .add-spot-page-btn {
+    padding: 11px 16px;
+
+    font-size: 0.9rem;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .spots-info-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+
+  .active-filter-text {
+    text-align: center;
+  }
+
+
+  .add-spot-page-btn {
+    width: 100%;
+  }
+
+}

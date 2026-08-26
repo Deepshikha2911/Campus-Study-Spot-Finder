@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 
 import { db } from "./firebase";
+import studySpots from "./data/studySpots";
 
 import PageLoader from "./components/PageLoader";
 import ScrollToTop from "./components/ScrollToTop";
@@ -35,10 +36,12 @@ import Review from "./pages/Review";
 import MyReviews from "./pages/MyReviews";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
+import AddStudySpot from "./pages/AddStudySpot";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [firebaseSpots, setFirebaseSpots] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
 
   const { user, loading } = useAuth();
@@ -138,6 +141,55 @@ function App() {
     loadReviews();
 
   }, []);
+
+  // Load community-added study spots from Firestore
+  useEffect(() => {
+
+    async function loadFirebaseSpots() {
+
+      try {
+
+        const spotsSnapshot =
+          await getDocs(
+            collection(db, "studySpots")
+          );
+
+
+        const loadedSpots =
+          spotsSnapshot.docs.map((spotDoc) => ({
+
+            id: spotDoc.id,
+
+            ...spotDoc.data(),
+
+          }));
+
+
+        setFirebaseSpots(loadedSpots);
+
+      } catch (error) {
+
+        console.error(
+          "Error loading study spots:",
+          error
+        );
+
+      }
+
+    }
+
+
+    loadFirebaseSpots();
+
+  }, []);
+
+  const allStudySpots = [
+
+    ...studySpots,
+
+    ...firebaseSpots,
+
+  ];
 
   if (loading) {
     return <PageLoader />;
@@ -273,6 +325,90 @@ function App() {
 
   }
 
+  // Add new study spot
+  async function addStudySpot(spot) {
+
+    if (!user) {
+      return false;
+    }
+
+    try {
+
+      const spotData = {
+
+        name: spot.name,
+
+        location: spot.location,
+
+        description: spot.description,
+
+        noise: spot.noise,
+
+        wifi: spot.wifi,
+
+        outlets: spot.outlets,
+
+        crowd: spot.crowd,
+
+        emoji: spot.emoji,
+
+        rating: 0,
+
+        reviews: 0,
+
+        userId: user.uid,
+
+        createdBy: user.displayName || "Student",
+
+      };
+
+
+      // Save study spot to Firestore
+      const spotRef = await addDoc(
+        collection(db, "studySpots"),
+        spotData
+      );
+
+
+      const newSpot = {
+
+        id: spotRef.id,
+
+        ...spotData,
+
+      };
+
+
+      setFirebaseSpots((previousSpots) => [
+
+        ...previousSpots,
+
+        newSpot,
+
+      ]);
+
+
+      console.log(
+        "Study spot added successfully:",
+        spotRef.id
+      );
+
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        "Error adding study spot:",
+        error
+      );
+
+      return false;
+
+    }
+
+  }
+
   // Update review
   async function updateReview(updatedReview) {
 
@@ -387,7 +523,9 @@ function App() {
             <Route
               path="/login"
               element={
-                user ? <StudySpots /> : <Login />
+                user ? <StudySpots
+                  studySpots={allStudySpots}
+                /> : <Login />
               }
             />
 
@@ -395,7 +533,9 @@ function App() {
             <Route
               path="/register"
               element={
-                user ? <StudySpots /> : <Register />
+                user ? <StudySpots
+                  studySpots={allStudySpots}
+                /> : <Register />
               }
             />
 
@@ -427,7 +567,9 @@ function App() {
               path="/study-spots"
               element={
                 <ProtectedRoute>
-                  <StudySpots />
+                  <StudySpots
+                    studySpots={allStudySpots}
+                  />
                 </ProtectedRoute>
               }
             />
@@ -459,6 +601,19 @@ function App() {
               }
             />
 
+            {/* ADD STUDY SPOT */}
+
+            <Route
+              path="/add-spot"
+              element={
+                <ProtectedRoute>
+                  <AddStudySpot
+                    addStudySpot={addStudySpot}
+                  />
+                </ProtectedRoute>
+              }
+            />
+
             {/* ABOUT */}
             <Route
               path="/about"
@@ -476,6 +631,7 @@ function App() {
                 <ProtectedRoute>
 
                   <SpotDetails
+                    studySpots={allStudySpots}
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
                     reviews={reviews}

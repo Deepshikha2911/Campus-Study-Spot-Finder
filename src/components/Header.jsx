@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Header() {
@@ -31,26 +31,63 @@ function Header() {
         {/* NAVIGATION */}
         <nav className="nav-links">
 
-          <Link to="/">Home</Link>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "nav-link active-nav-link" : "nav-link"
+            }
+            end
+          >
+            Home
+          </NavLink>
 
           {user ? (
             <>
-              <Link to="/study-spots">Study Spots</Link>
+              <NavLink
+                to="/study-spots"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active-nav-link" : "nav-link"
+                }
+              >
+                Study Spots
+              </NavLink>
 
-              <Link to="/favorites">
+              <NavLink
+                to="/favorites"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active-nav-link" : "nav-link"
+                }
+              >
                 Favorites
-              </Link>
+              </NavLink>
 
-              <Link to="/my-reviews">
+              <NavLink
+                to="/my-reviews"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active-nav-link" : "nav-link"
+                }
+              >
                 My Reviews
-              </Link>
+              </NavLink>
 
-              <Link to="/about">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active-nav-link" : "nav-link"
+                }
+              >
                 About
-              </Link>
+              </NavLink>
 
               {/* PROFILE */}
-              <Link to="/profile" className="profile-nav">
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? "profile-nav active-profile-nav"
+                    : "profile-nav"
+                }
+              >
                 <div className="header-avatar">
                   {firstLetter}
                 </div>
@@ -58,7 +95,7 @@ function Header() {
                 <span>
                   {user.displayName || "Profile"}
                 </span>
-              </Link>
+              </NavLink>
 
               {/* LOGOUT */}
               <button

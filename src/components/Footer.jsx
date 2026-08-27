@@ -28,7 +28,9 @@ function Footer() {
 
           <h3>Explore</h3>
 
-          <Link to="/">Home</Link>
+          <Link to="/">
+            Home
+          </Link>
 
           <Link to="/study-spots">
             Study Spots
@@ -50,16 +52,16 @@ function Footer() {
 
           <h3>Community</h3>
 
-          <Link to="/study-spots">
-            Explore Places
-          </Link>
-
           <Link to="/add-spot">
             Add a Study Spot
           </Link>
 
-          <Link to="/reviews">
-            Write a Review
+          <Link to="/my-reviews">
+            My Reviews
+          </Link>
+
+          <Link to="/study-spots">
+            Share Your Experience
           </Link>
 
         </div>
@@ -84,7 +86,6 @@ function Footer() {
 
 
       {/* Bottom Footer */}
-
       <div className="footer-bottom">
 
         <p>

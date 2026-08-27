@@ -29,6 +29,14 @@ function EditProfile() {
     const [error, setError] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
 
+    const [profileImage, setProfileImage] = useState(null);
+
+    const [profileImagePreview, setProfileImagePreview] =
+        useState("");
+
+    const [removeProfileImage, setRemoveProfileImage] =
+        useState(false);
+
     // Fetch existing profile data from Firestore
     useEffect(() => {
         async function fetchProfile() {
@@ -44,6 +52,10 @@ function EditProfile() {
 
                 if (userSnapshot.exists()) {
                     const userData = userSnapshot.data();
+
+                    setProfileImagePreview(
+                        userData.profilePhoto || ""
+                    );
 
                     setFormData({
                         fullName:
@@ -86,6 +98,7 @@ function EditProfile() {
                     });
                 } else {
                     // New user with no existing Firestore profile
+                    setProfileImagePreview("");
                     setFormData({
                         fullName:
                             user.displayName || "",
@@ -121,6 +134,157 @@ function EditProfile() {
         fetchProfile();
 
     }, [user]);
+
+    function handleProfileImageChange(event) {
+
+        const file = event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+
+        if (!file.type.startsWith("image/")) {
+
+            setError(
+                "Please select a valid image file."
+            );
+
+            return;
+        }
+
+
+        if (file.size > 2 * 1024 * 1024) {
+
+            setError(
+                "Please choose an image smaller than 2 MB."
+            );
+
+            return;
+        }
+
+
+        setError("");
+
+        setProfileImage(file);
+
+        setRemoveProfileImage(false);
+
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+
+            setProfileImagePreview(
+                reader.result
+            );
+
+        };
+
+
+        reader.readAsDataURL(file);
+
+    }
+
+    function compressProfileImage(file) {
+
+        return new Promise((resolve) => {
+
+            const reader = new FileReader();
+
+
+            reader.onload = (event) => {
+
+                const image = new Image();
+
+
+                image.onload = () => {
+
+                    const canvas =
+                        document.createElement("canvas");
+
+                    const maxSize = 300;
+
+                    let width = image.width;
+                    let height = image.height;
+
+
+                    if (width > height) {
+
+                        if (width > maxSize) {
+
+                            height =
+                                height *
+                                (maxSize / width);
+
+                            width = maxSize;
+
+                        }
+
+                    } else {
+
+                        if (height > maxSize) {
+
+                            width =
+                                width *
+                                (maxSize / height);
+
+                            height = maxSize;
+
+                        }
+
+                    }
+
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+
+                    const context =
+                        canvas.getContext("2d");
+
+
+                    context.drawImage(
+                        image,
+                        0,
+                        0,
+                        width,
+                        height
+                    );
+
+
+                    const compressedImage =
+                        canvas.toDataURL(
+                            "image/jpeg",
+                            0.7
+                        );
+
+
+                    resolve(compressedImage);
+
+                };
+
+
+                image.src = event.target.result;
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        });
+
+    }
+
+    function handleRemoveProfileImage() {
+
+        setProfileImage(null);
+
+        setProfileImagePreview("");
+
+        setRemoveProfileImage(true);
+
+    }
 
 
     // Handle form changes
@@ -335,6 +499,25 @@ function EditProfile() {
         setError("");
 
         try {
+            let updatedProfilePhoto =
+                profileImagePreview;
+
+
+            if (profileImage) {
+
+                updatedProfilePhoto =
+                    await compressProfileImage(
+                        profileImage
+                    );
+
+            }
+
+
+            if (removeProfileImage) {
+
+                updatedProfilePhoto = "";
+
+            }
             // Update Firebase Authentication display name
             if (auth.currentUser) {
                 await updateProfile(
@@ -364,6 +547,9 @@ function EditProfile() {
 
                     email:
                         user.email,
+
+                    profilePhoto:
+                        updatedProfilePhoto,
 
                     studentId:
                         formData.studentId,
@@ -475,6 +661,96 @@ function EditProfile() {
                     className="edit-profile-form"
                     onSubmit={handleSubmit}
                 >
+
+                    {/* PROFILE PICTURE */}
+
+                    <section className="edit-section profile-photo-section">
+
+                        <h2>
+                            📷 Profile Picture
+                        </h2>
+
+                        <p className="profile-photo-description">
+                            Add a photo to personalize your StudySpot profile.
+                        </p>
+
+
+                        <div className="edit-profile-photo-content">
+
+                            {/* PREVIEW */}
+
+                            <div className="edit-profile-photo-preview">
+
+                                {profileImagePreview ? (
+
+                                    <img
+                                        src={profileImagePreview}
+                                        alt="Profile preview"
+                                    />
+
+                                ) : (
+
+                                    <span>
+                                        {formData.fullName
+                                            ? formData.fullName
+                                                .charAt(0)
+                                                .toUpperCase()
+                                            : "👤"}
+                                    </span>
+
+                                )}
+
+                            </div>
+
+
+                            {/* ACTIONS */}
+
+                            <div className="edit-profile-photo-actions">
+
+                                <label
+                                    htmlFor="editProfileImage"
+                                    className="change-photo-btn"
+                                >
+                                    {profileImagePreview
+                                        ? "Change Photo"
+                                        : "Add Photo"}
+                                </label>
+
+
+                                {profileImagePreview && (
+
+                                    <button
+                                        type="button"
+                                        className="remove-photo-btn"
+                                        onClick={
+                                            handleRemoveProfileImage
+                                        }
+                                    >
+                                        Remove Photo
+                                    </button>
+
+                                )}
+
+
+                                <p>
+                                    JPG, PNG or other image formats.
+                                    Maximum size: 2 MB.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <input
+                            id="editProfileImage"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleProfileImageChange}
+                            className="profile-image-input"
+                        />
+
+                    </section>
 
                     {/* PERSONAL INFORMATION */}
 

@@ -22,8 +22,137 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [profileImage, setProfileImage] = useState(null);
+    const [profileImagePreview, setProfileImagePreview] = useState("");
+
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+
+    function handleProfileImageChange(event) {
+
+        const file = event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        // Only allow image files
+        if (!file.type.startsWith("image/")) {
+
+            setError("Please select a valid image file.");
+
+            return;
+        }
+
+        // Maximum original file size: 2 MB
+        if (file.size > 2 * 1024 * 1024) {
+
+            setError(
+                "Please choose an image smaller than 2 MB."
+            );
+
+            return;
+        }
+
+        setError("");
+
+        setProfileImage(file);
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+
+            setProfileImagePreview(
+                reader.result
+            );
+
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function compressProfileImage(file) {
+
+        return new Promise((resolve) => {
+
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+
+                const image = new Image();
+
+                image.onload = () => {
+
+                    const canvas =
+                        document.createElement("canvas");
+
+                    const maxSize = 300;
+
+                    let width = image.width;
+                    let height = image.height;
+
+
+                    if (width > height) {
+
+                        if (width > maxSize) {
+
+                            height =
+                                height * (maxSize / width);
+
+                            width = maxSize;
+
+                        }
+
+                    } else {
+
+                        if (height > maxSize) {
+
+                            width =
+                                width * (maxSize / height);
+
+                            height = maxSize;
+
+                        }
+
+                    }
+
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const context =
+                        canvas.getContext("2d");
+
+                    context.drawImage(
+                        image,
+                        0,
+                        0,
+                        width,
+                        height
+                    );
+
+
+                    const compressedImage =
+                        canvas.toDataURL(
+                            "image/jpeg",
+                            0.7
+                        );
+
+
+                    resolve(compressedImage);
+
+                };
+
+                image.src = event.target.result;
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+    }
 
 
     async function handleSubmit(event) {
@@ -46,6 +175,17 @@ function Register() {
 
             const newUser = userCredential.user;
 
+            let profilePhoto = "";
+
+            if (profileImage) {
+
+                profilePhoto =
+                    await compressProfileImage(
+                        profileImage
+                    );
+
+            }
+
 
             // Save user's display name in Firebase Authentication
             await updateProfile(newUser, {
@@ -60,6 +200,9 @@ function Register() {
                     // Basic Account Information
                     fullName: name,
                     email: email,
+
+                    // Profile Picture
+                    profilePhoto: profilePhoto,
 
                     // Personal Information
                     studentId: "",
@@ -215,6 +358,69 @@ function Register() {
                         className="auth-form"
                         onSubmit={handleSubmit}
                     >
+
+                        {/* PROFILE PICTURE */}
+
+                        <div className="form-group profile-picture-group">
+
+                            <label htmlFor="profileImage">
+                                Profile Picture
+                                <span className="optional-text">
+                                    Optional
+                                </span>
+                            </label>
+
+
+                            <div className="register-profile-upload">
+
+                                <div className="register-profile-preview">
+
+                                    {profileImagePreview ? (
+
+                                        <img
+                                            src={profileImagePreview}
+                                            alt="Profile preview"
+                                        />
+
+                                    ) : (
+
+                                        <span>
+                                            👤
+                                        </span>
+
+                                    )}
+
+                                </div>
+
+
+                                <div className="register-upload-content">
+
+                                    <label
+                                        htmlFor="profileImage"
+                                        className="choose-photo-btn"
+                                    >
+                                        Choose Photo
+                                    </label>
+
+                                    <p>
+                                        JPG, PNG or other image formats.
+                                        Maximum size: 2 MB.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <input
+                                id="profileImage"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleProfileImageChange}
+                                className="profile-image-input"
+                            />
+
+                        </div>
 
 
                         {/* FULL NAME */}

@@ -5272,3 +5272,310 @@
 
   font-weight: 600;
 }
+
+
+.profile-picture-group {
+  margin-bottom: 22px;
+}
+
+.profile-picture-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* OPTIONAL TEXT */
+
+.optional-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8a8a8a;
+}
+
+
+/* UPLOAD CONTAINER */
+
+.register-profile-upload {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #dce3ea;
+  border-radius: 12px;
+
+  background-color: #f8fafc;
+}
+
+
+/* PROFILE IMAGE PREVIEW */
+
+.register-profile-preview {
+  width: 72px;
+  height: 72px;
+
+  min-width: 72px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #e8f0f5;
+
+  border: 2px solid #d5e2e8;
+
+  font-size: 30px;
+}
+
+
+/* VERY IMPORTANT:
+   This prevents the image from becoming huge */
+
+.register-profile-preview img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* UPLOAD TEXT SECTION */
+
+.register-upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 6px;
+}
+
+
+.register-upload-content p {
+  margin: 0;
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  color: #7a8793;
+}
+
+
+/* CHOOSE PHOTO BUTTON */
+
+.choose-photo-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 16px;
+
+  border-radius: 8px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #8bbcc8;
+
+  color: #3d7785;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+
+.choose-photo-btn:hover {
+  background-color: #eaf6f8;
+}
+
+
+/* HIDE THE ORIGINAL FILE INPUT */
+
+.profile-image-input {
+  display: none;
+}
+
+
+.profile-photo-section {
+  margin-bottom: 24px;
+}
+
+
+.profile-photo-description {
+  margin: 6px 0 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+.edit-profile-photo-content {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+
+  padding: 20px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  background: #f8fafc;
+}
+
+
+.edit-profile-photo-preview {
+  width: 100px;
+  height: 100px;
+
+  min-width: 100px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #dceff2;
+  color: #3d7785;
+
+  border: 3px solid #ffffff;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+  font-size: 36px;
+  font-weight: 700;
+}
+
+
+.edit-profile-photo-preview img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+.edit-profile-photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.change-photo-btn,
+.remove-photo-btn {
+  padding: 10px 16px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.change-photo-btn {
+  background: #ffffff;
+
+  color: #3d7785;
+
+  border: 1px solid #8bbcc8;
+}
+
+
+.change-photo-btn:hover {
+  background: #eaf6f8;
+}
+
+
+.remove-photo-btn {
+  background: #fff5f5;
+
+  color: #c24141;
+
+  border: 1px solid #f1c4c4;
+}
+
+
+.remove-photo-btn:hover {
+  background: #ffe8e8;
+}
+
+
+.edit-profile-photo-actions p {
+  width: 100%;
+
+  margin: 2px 0 0;
+
+  color: #7a8793;
+
+  font-size: 12px;
+}
+
+
+/* Hidden file input */
+
+.profile-image-input {
+  display: none;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .edit-profile-photo-content {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+}
+
+.profile-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.header-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.header-avatar-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}

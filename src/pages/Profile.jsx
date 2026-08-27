@@ -161,7 +161,21 @@ function Profile({ favorites = [], reviews = [] }) {
 
                     <div className="profile-avatar large-avatar">
 
-                        {firstLetter || "U"}
+                        {studentInfo?.profilePhoto ? (
+
+                            <img
+                                src={studentInfo.profilePhoto}
+                                alt="Profile"
+                                className="profile-avatar-image"
+                            />
+
+                        ) : (
+
+                            <span>
+                                {firstLetter || "U"}
+                            </span>
+
+                        )}
 
                     </div>
 

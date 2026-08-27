@@ -1,9 +1,72 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import {
+  Link,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  doc,
+  getDoc,
+} from "firebase/firestore";
+
+import { db } from "../firebase";
+
 import { useAuth } from "../context/AuthContext";
 
 function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [profilePhoto, setProfilePhoto] = useState("");
+
+
+  useEffect(() => {
+
+    async function loadProfilePhoto() {
+
+      if (!user) {
+        setProfilePhoto("");
+        return;
+      }
+
+      try {
+
+        const userRef = doc(
+          db,
+          "users",
+          user.uid
+        );
+
+        const userSnapshot =
+          await getDoc(userRef);
+
+        if (userSnapshot.exists()) {
+
+          const userData =
+            userSnapshot.data();
+
+          setProfilePhoto(
+            userData.profilePhoto || ""
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Error loading profile photo:",
+          error
+        );
+
+      }
+
+    }
+
+    loadProfilePhoto();
+
+  }, [user]);
+  
 
   const handleLogout = async () => {
     try {
@@ -89,7 +152,23 @@ function Header() {
                 }
               >
                 <div className="header-avatar">
-                  {firstLetter}
+
+                  {profilePhoto ? (
+
+                    <img
+                      src={profilePhoto}
+                      alt="Profile"
+                      className="header-avatar-image"
+                    />
+
+                  ) : (
+
+                    <span>
+                      {firstLetter || "U"}
+                    </span>
+
+                  )}
+
                 </div>
 
                 <span>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 
 import StudySpotCard from "../components/StudySpotCard";
@@ -17,6 +17,41 @@ function StudySpots({ studySpots }) {
   // Stores the selected filter
   const [activeFilter, setActiveFilter] = useState("All");
 
+  // Stores the selected sorting option
+  const [sortBy, setSortBy] = useState("default");
+
+  const [sortOpen, setSortOpen] = useState(false);
+
+  const sortRef = useRef(null);
+
+  useEffect(() => {
+
+    function handleClickOutside(event) {
+
+      if (
+        sortRef.current &&
+        !sortRef.current.contains(event.target)
+      ) {
+        setSortOpen(false);
+      }
+
+    }
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+
+    };
+
+  }, []);
 
   // Filter study spots
   const filteredSpots = studySpots.filter((spot) => {
@@ -66,6 +101,30 @@ function StudySpots({ studySpots }) {
 
 
     return matchesSearch && matchesFilter;
+
+  });
+
+  const sortedSpots = [...filteredSpots].sort((a, b) => {
+
+    if (sortBy === "rating") {
+
+      return (b.rating || 0) - (a.rating || 0);
+
+    }
+
+    if (sortBy === "reviews") {
+
+      return (b.reviews || 0) - (a.reviews || 0);
+
+    }
+
+    if (sortBy === "name") {
+
+      return a.name.localeCompare(b.name);
+
+    }
+
+    return 0;
 
   });
 
@@ -226,6 +285,132 @@ function StudySpots({ studySpots }) {
 
             )}
 
+            <div
+              className="custom-sort"
+              ref={sortRef}
+            >
+
+              <button
+                type="button"
+                className={`custom-sort-button ${sortOpen ? "sort-open" : ""
+                  }`}
+                onClick={() =>
+                  setSortOpen(!sortOpen)
+                }
+              >
+
+                <span className="sort-button-content">
+
+                  <span className="sort-icon">
+                    ↕
+                  </span>
+
+                  <span>
+
+                    {sortBy === "default" &&
+                      "Sort By"}
+
+                    {sortBy === "rating" &&
+                      "Highest Rated"}
+
+                    {sortBy === "reviews" &&
+                      "Most Reviewed"}
+
+                    {sortBy === "name" &&
+                      "Name A–Z"}
+
+                  </span>
+
+                </span>
+
+                <span className="sort-arrow">
+                  {sortOpen ? "⌃" : "⌄"}
+                </span>
+
+              </button>
+
+
+              {sortOpen && (
+
+                <div className="custom-sort-menu">
+
+                  <button
+                    type="button"
+                    className={
+                      sortBy === "default"
+                        ? "sort-option selected"
+                        : "sort-option"
+                    }
+                    onClick={() => {
+
+                      setSortBy("default");
+                      setSortOpen(false);
+
+                    }}
+                  >
+                    ↕ Sort By
+                  </button>
+
+
+                  <button
+                    type="button"
+                    className={
+                      sortBy === "rating"
+                        ? "sort-option selected"
+                        : "sort-option"
+                    }
+                    onClick={() => {
+
+                      setSortBy("rating");
+                      setSortOpen(false);
+
+                    }}
+                  >
+                    ⭐ Highest Rated
+                  </button>
+
+
+                  <button
+                    type="button"
+                    className={
+                      sortBy === "reviews"
+                        ? "sort-option selected"
+                        : "sort-option"
+                    }
+                    onClick={() => {
+
+                      setSortBy("reviews");
+                      setSortOpen(false);
+
+                    }}
+                  >
+                    💬 Most Reviewed
+                  </button>
+
+
+                  <button
+                    type="button"
+                    className={
+                      sortBy === "name"
+                        ? "sort-option selected"
+                        : "sort-option"
+                    }
+                    onClick={() => {
+
+                      setSortBy("name");
+                      setSortOpen(false);
+
+                    }}
+                  >
+                    🔤 Name A–Z
+                  </button>
+
+                </div>
+
+              )}
+
+            </div>
+
 
             <Link
               to="/add-spot"
@@ -248,9 +433,9 @@ function StudySpots({ studySpots }) {
         <div className="study-spots-grid">
 
 
-          {filteredSpots.length > 0 ? (
+          {sortedSpots.length > 0 ? (
 
-            filteredSpots.map((spot) => (
+            sortedSpots.map((spot) => (
 
               <StudySpotCard
                 key={spot.id}

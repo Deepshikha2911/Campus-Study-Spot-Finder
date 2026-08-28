@@ -126,8 +126,7 @@ function About() {
           </p>
 
           <h2>
-            Everything You Need to
-            Find Your Study Space
+            The Right Space for the Right Focus
           </h2>
 
           <p>

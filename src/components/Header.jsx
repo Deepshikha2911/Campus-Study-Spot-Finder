@@ -14,9 +14,11 @@ import {
 import { db } from "../firebase";
 
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 function Header() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [profilePhoto, setProfilePhoto] = useState("");
 
@@ -197,6 +199,18 @@ function Header() {
           )}
 
         </nav>
+
+        <button
+          type="button"
+          className="theme-toggle-btn"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        >
+          <span className="theme-toggle-icon">
+            {theme === "dark" ? "☀️" : "🌙"}
+          </span>
+        </button>
 
       </div>
     </header>
